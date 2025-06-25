@@ -90,10 +90,36 @@ function CreateCity() {
     }
   };
 
+  // const editCity = (city) => {
+  //   setEditingCity(city);
+  //   setCityName(city.city_name);
+  //   setState(city.state);
+  // };
+  
+  // Modify editCity to include confirmation before editing
   const editCity = (city) => {
-    setEditingCity(city);
-    setCityName(city.city_name);
-    setState(city.state);
+    // Show confirmation dialog before allowing edit
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You are about to edit the city: ${city.city_name}. Do you want to proceed?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, edit it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Proceed with the edit if confirmed
+        setEditingCity(city);
+        setCityName(city.city_name);
+        setState(city.state);
+        
+        // Scroll to the top of the page after edit
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth', // Smooth scrolling
+        });
+      }
+    });
   };
 
   const deleteCity = async (id) => {
@@ -202,13 +228,13 @@ function CreateCity() {
                     onClick={() => editCity(city)}
                     className="bg-yellow-500 text-white px-2 py-1 rounded mr-2"
                   >
-                    ✏️ Edit
+                     Edit
                   </button>
                   <button
                     onClick={() => deleteCity(city.city_id)}
                     className="bg-red-500 text-white px-2 py-1 rounded"
                   >
-                    ❌ Delete
+                     Delete
                   </button>
                 </td>
               </tr>
